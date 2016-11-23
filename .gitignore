@@ -1,7 +1,6 @@
 # Mac OS X
 *.DS_Store
 
-
 # Xcode
 *.pbxuser
 *.mode2v3
@@ -20,6 +19,5 @@ xcuserdata/
 Carthage/Checkouts
 *.bcsymbolmap
 
-AppStoreBuild
-
+# VisualStudio Code
 .vscode
