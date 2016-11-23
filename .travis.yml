@@ -1,0 +1,12 @@
+language: objective-c
+
+branches:
+ only:
+ - master
+
+xcode_project: Stately.xcodeproj
+xcode_scheme: macOSStately
+osx_image: xcode8.1
+
+script:
+- xcodebuild clean build test -project Stately.xcodeproj -scheme macOSStately

@@ -1,0 +1,25 @@
+# Mac OS X
+*.DS_Store
+
+
+# Xcode
+*.pbxuser
+*.mode2v3
+*.mode1v3
+*.perspective
+*.perspectivev3
+*.xcuserstate
+xcuserdata/
+
+## Generic Files To Ignore
+*~
+*.swp
+*.out
+
+# Carthage
+Carthage/Checkouts
+*.bcsymbolmap
+
+AppStoreBuild
+
+.vscode
