@@ -36,7 +36,7 @@ At this time, Stately cannot be used with Objective-C projects. I decided that i
     ```Swift
     // State A.
     stateA = try State(name: "StateA") { [weak self] (object: AnyObject?) -> StateChange? in
-        // ...
+        // Do some work...
 
         // Return, leaving state unchanged.
         return nil
@@ -46,7 +46,7 @@ At this time, Stately cannot be used with Objective-C projects. I decided that i
     stateB = try State(name: "StateB") { [weak self] (object: AnyObject?) -> StateChange? in
         // Do some work...
 
-        // Return and immediately change to state A.
+        // Return, immediately changing to state A.
         return StateChange(stateA, nil)
     }
     ```
