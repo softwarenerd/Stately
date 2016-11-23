@@ -82,13 +82,13 @@ This will fetch dependencies into a `Carthage/Checkouts` folder, then build each
 
 #### Using Stately - macOS
 
-On your application targets’ “General” settings tab, in the “Embedded Binaries” section, drag and drop the Stately.framework file from the [Carthage/Build/Mac][] folder on disk.
+On your application targets’ “General” settings tab, in the “Embedded Binaries” section, drag and drop the Stately.framework file from the Carthage/Build/Mac folder on disk.
 
 Additionally, you'll need to copy debug symbols for debugging and crash reporting on OS X.
 
 #### Using Stately - iOS, tvOS, watchOS
 
-1. On your application targets’ “General” settings tab, in the “Linked Frameworks and Libraries” section, drag and drop Stately.framework you want to use from the appropriate [Carthage/Build][] folder on disk.
+1. On your application targets’ “General” settings tab, in the “Linked Frameworks and Libraries” section, drag and drop Stately.framework you want to use from the appropriate Carthage/Build folder on disk.
 1. On your application targets’ “Build Phases” settings tab, click the “+” icon and choose “New Run Script Phase”. Create a Run Script in which you specify your shell (ex: `bin/sh`), add the following contents to the script area below the shell:
 
   ```sh
@@ -155,7 +155,7 @@ do {
 
 ## Example Project
 
-The [StatelyExample](https://github.com/softwarenerd/StatelyExample) project provides a comprehensive example of using Stately to build a garage door simulator.
+The [StatelyExample](https://github.com/softwarenerd/StatelyExample) project provides a fairly complete example of using Stately to build a garage door simulator. Other examples are planned.
 
 ## Contributing
 
