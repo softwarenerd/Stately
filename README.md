@@ -146,8 +146,8 @@ do {
                                     events: [eventClose, eventOpen])
 
     // Fire events to the state machine.
-    stateMachine.fireEvent(event: eventOpen)
-    stateMachine.fireEvent(event: eventClose)
+    try stateMachine.fireEvent(event: eventOpen)
+    try stateMachine.fireEvent(event: eventClose)
 } catch {
     // Handle errors.
 }
