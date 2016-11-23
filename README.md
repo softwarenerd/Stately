@@ -18,25 +18,33 @@ At this time, Stately cannot be used with Objective-C projects. I decided that i
 
 ### Notes
 
-- Stately's [`StateMachine`](https://github.com/softwarenerd/Stately/blob/master/Stately/Code/StateMachine.swift) class uses a Grand Central Dispatch (GCD) [Serial Dispatch Queue](https://developer.apple.com/library/content/documentation/General/Conceptual/ConcurrencyProgrammingGuide/OperationQueues/OperationQueues.html) for all operations, thus, it is fully thread-safe.
-- A `StateEntryAction` will always be called *off* the main UI thread by the `StateMachine` Serial Dispatch Queue. Thus, to update UI, you will need to use `DispatchQueue.main`. For example:
+- Stately's [`StateMachine`](https://github.com/softwarenerd/Stately/blob/master/Stately/Code/StateMachine.swift) class uses a [Grand Central Dispatch (GCD) Serial Dispatch Queue](https://developer.apple.com/library/content/documentation/General/Conceptual/ConcurrencyProgrammingGuide/OperationQueues/OperationQueues.html) for all operations, thus, it is fully thread-safe.
+- A `StateEntryAction` will always be called *off* the main UI thread though the StateMachine Serial Dispatch Queue. In order to update UI in your `StateEntryAction`, you will need to use `DispatchQueue.main`. For example:
     ```Swift
-    state = try State(name: "State") { [weak self] (object: AnyObject?) -> StateChange? in
+    someState = try State(name: "SomeState") { [weak self] (object: AnyObject?) -> StateChange? in
         // Update UI.
         DispatchQueue.main.async {
             // ...
         }
-        
+
         // Return, leaving state unchanged.
         return nil
     }
     ```
-- Stately's [`StateMachine`](https://github.com/softwarenerd/Stately/blob/master/Stately/Code/StateMachine.swift) class *does not* expose a property or function for determining its current state. This is quite intentional. If you're using a state machine in such a way that you need to query it for its current state, then you are not using it correctly. Thus, in order to promote correct usage, no such affordance was provided. Instead of querying a `StateMachine` instance for its current state, use the the `StateEnterAction` of your `State` instances to effect changes, as needed, for the context in which the `StateMachine` is used. Examples of this include making asynchronous requests, updating the state of a user interface, changing member variables, and so on.
+- Stately's [`StateMachine`](https://github.com/softwarenerd/Stately/blob/master/Stately/Code/StateMachine.swift) class *does not* expose a property / function to obtain its current state. This is intentional. If you're using a `StateMachine` in such a way that you need to query it for its current state, then you are not using it correctly. Instead of querying a `StateMachine` for its current state, rely on the `StateEnterAction` of your `State` instances to effect changes, as needed, to the context in which the `StateMachine` is used. Examples of this include making asynchronous IO requests, updating the state of a user interface, changing member variables, and so on.
+- Do not use a `StateMachie.fireEvent` inside a `StateEntryAction`. Doing so will result in a deadlock. Instead, if you need to change the state of a `StateMachine` from within a `StateEntryAction`, return a `StateChange` tuple representing the new state (which, of course, must be a state that is defined in the `StateMachine`. For example:
+    ```Swift
+    someState = try State(name: "SomeState") { [weak self] (object: AnyObject?) -> StateChange? in
+        // Update UI.
+        DispatchQueue.main.async {
+            // ...
+        }
 
-each state should be used.
-
-rely on the StateEnterAction of your State objects to 
-
+        // Return and immediately change to the other state.
+        return StateChange(otherState, nil)
+        return nil
+    }
+    ```
 ## Quick Links
 
 - [Getting Started](#getting-started)
