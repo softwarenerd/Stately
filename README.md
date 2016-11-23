@@ -16,6 +16,27 @@ I have used variations of Stately in numerous iOS, macOS and .NET applications, 
 
 At this time, Stately cannot be used with Objective-C projects. I decided that it makes the most sense to share Stately as a pure Swift framework. If it becomes clear that Objective-C compatibility is needed, I will add it.
 
+### Notes
+
+- Stately's [`StateMachine`](https://github.com/softwarenerd/Stately/blob/master/Stately/Code/StateMachine.swift) class uses a Grand Central Dispatch (GCD) [Serial Dispatch Queue](https://developer.apple.com/library/content/documentation/General/Conceptual/ConcurrencyProgrammingGuide/OperationQueues/OperationQueues.html) for all operations, thus, it is fully thread-safe.
+- A `StateEntryAction` will always be called *off* the main UI thread by the `StateMachine` Serial Dispatch Queue. Thus, to update UI, you will need to use `DispatchQueue.main`. For example:
+    ```Swift
+    state = try State(name: "State") { [weak self] (object: AnyObject?) -> StateChange? in
+        // Update UI.
+        DispatchQueue.main.async {
+            // ...
+        }
+        
+        // Return, leaving state unchanged.
+        return nil
+    }
+    ```
+- Stately's [`StateMachine`](https://github.com/softwarenerd/Stately/blob/master/Stately/Code/StateMachine.swift) class *does not* expose a property or function for determining its current state. This is quite intentional. If you're using a state machine in such a way that you need to query it for its current state, then you are not using it correctly. Thus, in order to promote correct usage, no such affordance was provided. Instead of querying a `StateMachine` instance for its current state, use the the `StateEnterAction` of your `State` instances to effect changes, as needed, for the context in which the `StateMachine` is used. Examples of this include making asynchronous requests, updating the state of a user interface, changing member variables, and so on.
+
+each state should be used.
+
+rely on the StateEnterAction of your State objects to 
+
 ## Quick Links
 
 - [Getting Started](#getting-started)
