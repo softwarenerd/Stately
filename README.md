@@ -18,8 +18,9 @@ At this time, Stately cannot be used with Objective-C projects. I decided that i
 
 ### Notes
 
+- Stately was 
 - The StateMachine class uses a [Grand Central Dispatch (GCD) Serial Dispatch Queue](https://developer.apple.com/library/content/documentation/General/Conceptual/ConcurrencyProgrammingGuide/OperationQueues/OperationQueues.html) for all operations, thus, it is fully thread-safe.
-- StateEnterAction will always be called off the main UI thread. In order to update the state of a user interface in your StateEnterAction, you will need to use DispatchQueue.main. For example:
+- StateEnterAction will always be called off the main UI thread. In order to update the state of a user interface in your StateEnterAction, use DispatchQueue.main. For example:
     ```Swift
     someState = try State(name: "SomeState") { [weak self] (object: AnyObject?) -> StateChange? in
         // Update UI.
@@ -32,19 +33,25 @@ At this time, Stately cannot be used with Objective-C projects. I decided that i
     }
     ```
 - StateMachine *does not* expose a property / function to obtain its current state. This is intentional. If you're using a StateMachine in such a way that you need to query it for its current state, then you are not using it correctly. Instead of querying a StateMachine for its current state, rely on the StateEnterAction of your State instances to effect change, as needed, to the context in which the StateMachine is being used. Examples of this include making asynchronous IO requests, updating the state of a user interface, or changing member variables.
-- Do not call StateMachine.fireEvent inside a StateEnterAction. Doing so will result in a deadlock. Instead, to change the state of a StateMachine from within a StateEnterAction, return a StateChange tuple representing the new state. (The new state must be a state that is defined in the StateMachine.) For example:
+- Do not call myStateMachine.fireEvent from within a StateEnterAction. Doing so will result in a deadlock. Instead, to change the state of a StateMachine from within a StateEnterAction, return a StateChange tuple representing the new state. (The new state must be a state that is defined in the StateMachine.) For example:
     ```Swift
-    someState = try State(name: "SomeState") { [weak self] (object: AnyObject?) -> StateChange? in
-        // Update UI.
-        DispatchQueue.main.async {
-            // ...
-        }
+    // State A.
+    stateA = try State(name: "StateA") { [weak self] (object: AnyObject?) -> StateChange? in
+        // ...
 
-        // Return and immediately change to the other state.
-        return StateChange(otherState, nil)
+        // Return, leaving state unchanged.
         return nil
     }
+
+    // State B.
+    stateB = try State(name: "StateB") { [weak self] (object: AnyObject?) -> StateChange? in
+        // Do some work...
+
+        // Return and immediately change to state A.
+        return StateChange(stateA, nil)
+    }
     ```
+- Stately provides no logging.
 
 ## Quick Links
 
@@ -56,13 +63,13 @@ At this time, Stately cannot be used with Objective-C projects. I decided that i
 
 ## Getting Started
 
-Stately can be used via [Carthage](https://github.com/Carthage/Carthage). 
+Stately can be used via [Carthage](https://github.com/Carthage/Carthage).
 
 There are excellent [Insructions](https://github.com/Carthage/Carthage#getting-started) available on the [Carthage](https://github.com/Carthage/Carthage) site, which are summarized below.
 
 #### Add Stately to your Cartfile
 
-```
+```sh
 github "softwarenerd/Stately"
 ```
 
