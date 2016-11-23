@@ -18,7 +18,6 @@ At this time, Stately cannot be used with Objective-C projects. I decided that i
 
 ### Notes
 
-- Stately was 
 - The StateMachine class uses a [Grand Central Dispatch (GCD) Serial Dispatch Queue](https://developer.apple.com/library/content/documentation/General/Conceptual/ConcurrencyProgrammingGuide/OperationQueues/OperationQueues.html) for all operations, thus, it is fully thread-safe.
 - StateEnterAction will always be called off the main UI thread. In order to update the state of a user interface in your StateEnterAction, use DispatchQueue.main. For example:
     ```Swift
