@@ -1,6 +1,6 @@
 ![](Logo/Header.png)
 
-# Stately [![GitHub license](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://raw.githubusercontent.com/softwarenerd/Stately/master/LICENSE.md) [![GitHub release](https://img.shields.io/github/release/softwarenerd/Stately.svg)](https://github.com/softwarenerd/Stately/releases) [![Build Status](https://travis-ci.org/softwarenerd/Stately.svg?branch=master)](https://travis-ci.org/softwarenerd/Stately) 
+# Stately [![GitHub license](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://raw.githubusercontent.com/softwarenerd/Stately/master/LICENSE.md) [![GitHub release](https://img.shields.io/github/release/softwarenerd/Stately.svg)](https://github.com/softwarenerd/Stately/releases) [![Build Status](https://travis-ci.org/softwarenerd/Stately.svg?branch=master)](https://travis-ci.org/softwarenerd/Stately) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 ## Introduction 
 
