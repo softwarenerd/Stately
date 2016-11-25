@@ -153,6 +153,63 @@ do {
 }
 ```
 
+### Wildcard transitions
+
+An event definition in Stately may define a single wildcard transition. A wildcard transition will transition from any from state to the specified to state. The following example adds a broken state to the above example:
+
+```swift
+var stateClosed: State!
+var stateOpened: State!
+var stateBroken: State!
+var eventOpen: Event!
+var eventClose: Event!
+var eventBroken: Event!
+var stateMachine: StateMachine!
+
+do {
+    // Define the states that the state machine can be in.
+    stateClosed = try State(name: "Closed") { (object: AnyObject?) -> StateChange? in
+        // Log.
+        print("Closed")
+
+        // Return, leaving state unchanged.
+        return nil
+    }
+    stateOpened = try State(name: "Opened") { (object: AnyObject?) -> StateChange? in
+        // Log.
+        print("Opened")
+
+        // Return, leaving state unchanged.
+        return nil
+    }
+    stateBroken = try State(name: "Broken") { (object: AnyObject?) -> StateChange? in
+        // Log.
+        print("Broken")
+
+        // Return, leaving state unchanged.
+        return nil
+    }
+
+    // Define the events that can be sent to the state machine.
+    eventOpen  = try Event(name: "Open",   transitions: [(fromState: stateClosed, toState: stateOpened)])
+    eventClose = try Event(name: "Close",  transitions: [(fromState: stateOpened, toState: stateClosed)])
+    eventBroken = try Event(name: "Broken",  transitions: [(fromState: nil, toState: stateBroken)])
+
+    // Initialize the state machine.
+    stateMachine = try StateMachine(name: "Door",
+                                    defaultState: stateClosed,
+                                    states: [stateClosed, stateOpened],
+                                    events: [eventClose, eventOpen])
+
+    // Fire events to the state machine.
+    try stateMachine.fireEvent(event: eventOpen)
+    try stateMachine.fireEvent(event: eventClose)
+    try stateMachine.fireEvent(event: eventBroken)
+} catch {
+    // Handle errors.
+}
+```
+
 ## Example Project
 
 The [StatelyExample](https://github.com/softwarenerd/StatelyExample) project provides a fairly complete example of using Stately to build a garage door simulator. Other examples are planned.

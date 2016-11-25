@@ -87,9 +87,12 @@ public class StateMachine {
             } else {
                 // Validate the transitions for the event.
                 for transition in event.transitions {
-                    // Ensure that the from state is defined.
-                    if !statesTemp.contains(transition.fromState) {
-                        throw StateMachineError.TransitionFromStateNotDefined(fromState: transition.fromState)
+                    
+                    // Ensure that the from state is defined, or is nil, indicating "wildcard".
+                    if let fromState = transition.fromState {
+                        if !statesTemp.contains(fromState) {
+                            throw StateMachineError.TransitionFromStateNotDefined(fromState: fromState)
+                        }
                     }
                     
                     // Ensure that the to state is defined.

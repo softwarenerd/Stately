@@ -214,6 +214,66 @@ class StatelyTests: XCTestCase
         }
     }
     
+    // Tests multiple wildcard transitions.
+    func testMultipleWildcardTransition() {
+        do {
+            // Setup.
+            let stateA = try State(name: "A") { (object: AnyObject?) -> StateChange? in
+                return nil
+            }
+            let stateB = try State(name: "B") { (object: AnyObject?) -> StateChange? in
+                return nil
+            }
+            let stateC = try State(name: "C") { (object: AnyObject?) -> StateChange? in
+                return nil
+            }
+            let event1 = try Event(name: "1", transitions: [(fromState: nil, toState: stateA),
+                                                            (fromState: nil, toState: stateC)])
+            
+            // Test.
+            let stateMachine = try StateMachine(name: "StateMachine", defaultState: stateA, states: [stateA, stateB, stateC], events: [event1])
+            try stateMachine.fireEvent(event: event1)
+            
+            // Assert.
+            XCTFail("An error should have been thrown")
+        } catch EventError.MultipleWildcardTransitions {
+            // Expect to arrive here. This is success.
+        } catch {
+            XCTFail("Unexpeced error thrown: \(error)")
+        }
+    }
+
+    // Tests a wildcard transition.
+    func testWildcardTransition() {
+        do {
+            // Setup.
+            let stateA = try State(name: "A") { (object: AnyObject?) -> StateChange? in
+                return nil
+            }
+            let stateB = try State(name: "B") { (object: AnyObject?) -> StateChange? in
+                return nil
+            }
+            var stateCEntered = false
+            let stateC = try State(name: "C") { (object: AnyObject?) -> StateChange? in
+                stateCEntered = true
+                return nil
+            }
+            let event1 = try Event(name: "1", transitions: [(fromState: stateB, toState: stateA),
+                                                            (fromState: nil, toState: stateC)])
+            
+            // Test.
+            let stateMachine = try StateMachine(name: "StateMachine", defaultState: stateA, states: [stateA, stateB, stateC], events: [event1])
+            try stateMachine.fireEvent(event: event1)
+            
+            // Assert.
+            XCTAssertTrue(stateCEntered)
+        }
+        catch {
+            // Assert.
+            XCTFail("Unexpeced error thrown: \(error)")
+        }
+    }
+    
     // Tests multiple threads.
     func testMultipleThreads() {
         do {
