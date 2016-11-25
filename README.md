@@ -155,7 +155,16 @@ do {
 
 ### Wildcard transitions
 
-An event definition in Stately may define a single wildcard transition. A wildcard transition will transition from any from state to the specified to state. The following example adds a broken state to the above example:
+An event definition in Stately may define a single wildcard transition. A wildcard transition will transition from *any* from state to the specified to state. To define a wildcard transition, pass nil as the from state:
+
+```swift
+Event(name: "EventName",  transitions: [(fromState: stateA, toState: stateB),
+                                        (fromState: stateB, toState: stateC),
+                                        // Wildcard transition.
+                                        (fromState: nil,    toState: stateD)]) 
+```
+
+The following example adds a broken state to the above example:
 
 ```swift
 var stateClosed: State!
