@@ -84,6 +84,7 @@ public class Event : Hashable {
     ///   - fromState: The from state.
     func transition(fromState: State) -> State? {
         // Find the transition. If it cannot be found, and there's a wildcard transition, return its to state.
+        // Otherwise, nil will be returned.
         guard let transition = (transitions.first(where: { (transition: Transition) -> Bool in return transition.fromState === fromState })) else {
             return wildcardTransition?.toState
         }
