@@ -64,7 +64,7 @@ At this time, Stately cannot be used with Objective-C projects. I decided that i
 
 Stately can be used via [Carthage](https://github.com/Carthage/Carthage).
 
-There are excellent [Insructions](https://github.com/Carthage/Carthage#getting-started) available on the [Carthage](https://github.com/Carthage/Carthage) site, which are summarized below.
+There are excellent [Instruction](https://github.com/Carthage/Carthage#getting-started) for using Carthage available on the [Carthage](https://github.com/Carthage/Carthage) site, which are summarized below.
 
 #### Add Stately to your Cartfile
 
