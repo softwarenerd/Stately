@@ -35,7 +35,7 @@ public class Event : Hashable {
     /// - Parameters:
     ///   - name: The name of the event. Each event must have a unique name.
     ///   - transitions: The transitions for the event. An event must define at least one transition.
-    ///     A transition with a from state of nil is the whildcard transition and will match any from
+    ///     A transition with a from state of nil is the wildcard transition and will match any from
     ///     state. Only one wildcard transition may defined for an event.
     public init(name nameIn: String, transitions transitionsIn: [Transition]) throws {
         // Validate the event name.
